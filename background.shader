@@ -26,35 +26,43 @@ in vec4 vertex_color;
 
 uniform sampler2D texture_sampler;
 uniform bool has_texture;
+uniform float time;
 uniform float height;
 
 layout(location = 0) out vec4 color;
 
-
-float snoise(vec3 uv, float res)
+float random(vec2 ab) 
 {
-    const vec3 s = vec3(1e0, 1e2, 1e3);
-    
-    uv *= res;
-    
-    vec3 uv0 = floor(mod(uv, res))*s;
-    vec3 uv1 = floor(mod(uv+vec3(1.), res))*s;
-    
-    vec3 f = fract(uv); f = f*f*(3.0-2.0*f);
-
-    vec4 v = vec4(uv0.x+uv0.y+uv0.z, uv1.x+uv0.y+uv0.z,
-                  uv0.x+uv1.y+uv0.z, uv1.x+uv1.y+uv0.z);
-
-    vec4 r = fract(sin(v*1e-1)*1e3);
-    float r0 = mix(mix(r.x, r.y, f.x), mix(r.z, r.w, f.x), f.y);
-    
-    r = fract(sin((v + uv1.z - uv0.z)*1e-1)*1e3);
-    float r1 = mix(mix(r.x, r.y, f.x), mix(r.z, r.w, f.x), f.y);
-    
-    return mix(r0, r1, f.z)*2.-1.;
+    float f = (cos(dot(ab ,vec2(21.9898,78.233))) * 43758.5453);
+    return fract(f);
 }
 
-void main()
+float noise(in vec2 xy) 
 {
-    color = vec4(0.1 * height, 0.4 * height, height - clamp(snoise(vec3(texcoord.x, texcoord.y + height, 1), 10) * 0.1, 0.0, 1.0), 1);
+    vec2 ij = floor(xy);
+    vec2 uv = xy-ij;
+    uv = uv*uv*(3.0-2.0*uv);
+    
+
+    float a = random(vec2(ij.x, ij.y ));
+    float b = random(vec2(ij.x+1., ij.y));
+    float c = random(vec2(ij.x, ij.y+1.));
+    float d = random(vec2(ij.x+1., ij.y+1.));
+    float k0 = a;
+    float k1 = b-a;
+    float k2 = c-a;
+    float k3 = a-b-c+d;
+    return (k0 + k1*uv.x + k2*uv.y + k3*uv.x*uv.y);
+}
+
+void main( void ) {
+    vec2 position = gl_FragCoord.xy;
+
+    float color = pow(noise(position), 40.0) * 20.0;
+
+    float r1 = noise(position*noise(vec2(sin(time*0.01))));
+    float r2 = noise(position*noise(vec2(cos(time*0.01), sin(time*0.01))));
+    float r3 = noise(position*noise(vec2(sin(time*0.05), cos(time*0.05))));
+        
+    gl_FragColor = vec4(vec3(color*r1, color*r2, color*r3), 1.0);
 }

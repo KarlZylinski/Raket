@@ -2,6 +2,7 @@
     "shader": "background.shader",
     "uniforms": [
         "mat4 model_view_projection_matrix mvp",
-        "float height 0"
+        "float height 0",
+        "float time time"
     ]
 }

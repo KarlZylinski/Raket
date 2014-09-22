@@ -8,7 +8,7 @@ function Game:init()
     Engine.set_default_resource("material", "default.material")
     self._world = World.create(engine)
     self._view_pos = Vector2(0, 0)
-    self._view_size = Vector2(640, 360)
+    self._view_size = Vector2(1280, 720)
     self._background_material = Engine.load_resource("material", "background.material")
     self._background = Rectangle.spawn(self._world, Vector2(0,0), self._view_size, Color(1, 1, 1, 1))
     Drawable.set_material(self._background, self._background_material)
@@ -23,10 +23,6 @@ function Game:deinit()
 end
 
 function Game:update(dt)
-    if Keyboard.pressed("R") then
-        Engine.reload_resource("shader", "background.shader")
-    end
-
     self._rocket:update(dt, self._view_size)
     local rocket_pos = self._rocket:position()
     Drawable.set_position(self._background, rocket_pos - self._view_size * 0.5)

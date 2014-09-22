@@ -23,6 +23,10 @@ function Thruster:set_parent(parent)
 end
 
 function Thruster:update(input, dt)
+    if Keyboard.pressed("R") then
+        Engine.reload_resource("shader", "fire.shader")
+    end
+
     max_thrust = 5000
     self._thrust = input.y * max_thrust
     self._flare = self._flare - dt * 4
