@@ -24,7 +24,7 @@ end
 
 function Thruster:update(input, dt)
     if Keyboard.pressed("R") then
-        Engine.reload_resource("shader", "fire.shader")
+        Engine.reload_resource("shader", "background.shader")
     end
 
     max_thrust = 5000
