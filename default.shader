@@ -29,7 +29,5 @@ layout(location = 0) out vec4 color;
 
 void main()
 {
-    color = has_texture
-        ? texture(texture_sampler, texcoord) * vertex_color
-        : vertex_color;
+    color = texture(texture_sampler, texcoord) * vertex_color;
 }

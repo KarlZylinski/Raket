@@ -2,7 +2,9 @@
     "shader": "background.shader",
     "uniforms": [
         "mat4 model_view_projection_matrix mvp",
+        "mat4 model_matrix m",
         "float height 0",
-        "float time time"
+        "float time time",
+        "texture1 noise_sampler textures/noise.png"
     ]
 }
