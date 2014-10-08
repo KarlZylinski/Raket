@@ -29,7 +29,6 @@ in vec4 vertex_color;
 uniform sampler2D noise_sampler;
 uniform bool has_texture;
 uniform float time;
-uniform float height;
 
 layout(location = 0) out vec4 color;
 
@@ -38,12 +37,9 @@ float rand(vec2 co) {
 }
 
 void main() {
-    /*float blue = clamp(rand(world_position.yy), 0.6, 1.0);
-    vec3 color = vec3(clamp(rand(world_position.yx), blue, 0.7),
-                      clamp(rand(world_position.xx), blue, 0.8),
-                      blue);
-    float brightness = step(0.9975, rand(world_position.xy));*/
-    vec3 color = vec3(1, 1, 1);
-    float brightness = step(0.999, rand(world_position.xy));
+    vec3 noise = texture2D(noise_sampler, mod(world_position * 0.0001, 1.0)).xyz;
+    float noise_value = (noise.x + noise.y + noise.z) / 3.0;
+    vec3 color = vec3(1.0, 1.0, 1.0);
+    float brightness = step(0.999, noise_value);
     gl_FragColor = vec4(color * brightness, 1);
 }
