@@ -28,7 +28,7 @@ function Thruster:update(input, dt)
     end
 
     max_thrust = 5000
-    self._thrust = input.y * max_thrust
+    self._thrust = math.min(0, input.y) * max_thrust
     self._flare = self._flare - dt * 4
     self._flare = self._flare - input.y * dt * 20
     self._flare = clamp(self._flare, 0, 1)

@@ -1,7 +1,7 @@
 require "shared/tuple"
 require "thruster"
 
-local apply_gravity, apply_thrust, calculate_rotation, calculate_thrust, limit_velocity, limit_vertical_velocity, read_input
+local apply_gravity, apply_thrust, calculate_rotation, calculate_thrust, limit_velocity, limit_horizontal_velocity, limit_vertical_velocity, read_input
 
 Rocket = class(Rocket)
 
@@ -59,7 +59,17 @@ calculate_rotation = function(current_rotation, input, dt)
 end
 
 limit_velocity = function(current_velocity)
-    return Vector2(current_velocity.x, limit_vertical_velocity(current_velocity.y))
+    return Vector2(limit_horizontal_velocity(current_velocity.x), limit_vertical_velocity(current_velocity.y))
+end
+
+limit_horizontal_velocity = function(current_horizontal_velocity)
+    if current_horizontal_velocity < -500 then
+        return -500
+    elseif current_horizontal_velocity > 500 then
+        return 500
+    end
+
+    return current_horizontal_velocity
 end
 
 limit_vertical_velocity = function(current_vertical_velocity)
