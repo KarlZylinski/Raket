@@ -1,4 +1,2 @@
-{
-    "texture": "sprites/textures/rocket.png",
-    "material": "default.material"
-}
+texture: "sprites/textures/rocket.png"
+material: "default.material"

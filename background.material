@@ -1,9 +1,7 @@
-{
-    "shader": "background.shader",
-    "uniforms": [
-        "mat4 model_view_projection_matrix mvp",
-        "mat4 model_matrix m",
-        "float time time",
-        "texture1 noise_sampler textures/noise.png"
-    ]
-}
+shader: "background.shader"
+uniforms: [
+    "mat4 model_view_projection_matrix mvp"
+    "mat4 model_matrix m"
+    "float time time"
+    "texture1 noise_sampler textures/noise.png"
+]
