@@ -22,12 +22,9 @@ void main()
 in vec2 texcoord;
 in vec4 vertex_color;
 
-uniform sampler2D texture_sampler;
-uniform bool has_texture_sampler;
-
 layout(location = 0) out vec4 color;
 
 void main()
 {
-    color = texture2D(texture_sampler, texcoord) * vertex_color;
+    color = vertex_color;
 }

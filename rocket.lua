@@ -36,7 +36,6 @@ function Rocket:update(dt, view_size)
         self._velocity = Vector2(0, 0)
     end
 
-    console:write(new_pos.y)
     Drawable.set_position(self._sprite, new_pos)
 end
 
