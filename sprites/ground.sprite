@@ -1,0 +1,2 @@
+texture: "sprites/textures/ground.png"
+material: "default.material"

@@ -15,6 +15,9 @@ function Game:init()
     Drawable.set_depth(self._background, -1)
     self._rocket = Rocket()
     self._rocket:spawn(self._world)
+    Engine.load_resource("sprite", "sprites/ground.sprite")
+    self._sprite = Sprite.spawn(self._world, "sprites/ground.sprite", 25)
+    self._ground = Drawable.set_position(self._sprite, Vector2(-443,600))
 end
 
 function Game:deinit()

@@ -1,0 +1,5 @@
+shader: "ground.shader"
+uniforms: [
+    "mat4 model_view_projection_matrix mvp"
+    "texture1 noise_sampler textures/noise.png"
+]
