@@ -1,2 +1,2 @@
 texture: "sprites/textures/rocket.png"
-material: "default.material"
+material: "sprites/rocket.material"

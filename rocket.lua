@@ -15,32 +15,37 @@ function Rocket:spawn(world)
     self._thruster:spawn(world)
     self._sprite = Sprite.spawn(world, "sprites/rocket.sprite", 50)
     self._thruster:set_parent(self._sprite)
-    local sprite_size = Tuple.second(Sprite.rect(self._sprite))
-    Drawable.set_position(self._sprite, Vector2(200, 0))
-    Drawable.set_pivot(self._sprite, sprite_size * 0.5);
+
+    self._entity = Entity.create()
+    self._sprite = SpriteRendererComponent.create(self._entity, world, Vector2(0,0), Vector2(45, 128))
+    self._transform = TransformComponent.get(self._entity, world)
+    local material = Engine.load_resource("material", "sprites/rocket.material")
+    SpriteRendererComponent.set_material(self._sprite, material)
+    TransformComponent.set_position(self._transform, Vector2(200, 0))
+    TransformComponent.set_pivot(self._transform, Vector2(22.5, 64))
 end
 
 function Rocket:update(dt, view_size)
     local input = read_input()
-    local rotation = calculate_rotation(Drawable.rotation(self._sprite), input, dt)
-    Drawable.set_rotation(self._sprite, rotation)
+    local rotation = calculate_rotation(TransformComponent.rotation(self._transform), input, dt)
+    TransformComponent.set_rotation(self._transform, rotation)
     self._velocity = apply_gravity(self._velocity, dt)
     self._thruster:update(input, dt)
     self._velocity = apply_thrust(self._velocity, self._thruster:thrust(), rotation, dt)
     self._velocity = limit_velocity(self._velocity)
-    local new_pos = Drawable.position(self._sprite) + self._velocity * dt
-    local sprite_size = Tuple.second(Sprite.rect(self._sprite))
+    local new_pos = TransformComponent.position(self._transform) + self._velocity * dt
+    local sprite_size = Tuple.second(SpriteRendererComponent.rect(self._sprite))
 
     if new_pos.y > view_size.y - sprite_size.y then
         new_pos.y = view_size.y - sprite_size.y
         self._velocity = Vector2(0, 0)
     end
 
-    Drawable.set_position(self._sprite, new_pos)
+    TransformComponent.set_position(self._transform, new_pos)
 end
 
 function Rocket:position()
-    return Drawable.position(self._sprite)
+    return TransformComponent.position(self._transform)
 end
 
 apply_gravity = function(current_velocity, dt)
