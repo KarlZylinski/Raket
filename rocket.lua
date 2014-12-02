@@ -16,36 +16,35 @@ function Rocket:spawn(world)
     self._sprite = Sprite.spawn(world, "sprites/rocket.sprite", 50)
     self._thruster:set_parent(self._sprite)
 
-    self._entity = Entity.create()
-    self._sprite = SpriteRenderer.create(self._entity, world, Vector2(0,0), Vector2(45, 128))
-    self._transform = Transform.get(self._entity, world)
+    self._entity = Entity.create(world)
+    SpriteRenderer.create(self._entity, Vector2(0,0), Vector2(45, 128))
     local material = Engine.load_resource("material", "sprites/rocket.material")
-    SpriteRenderer.set_material(self._sprite, material)
-    Transform.set_position(self._transform, Vector2(200, 0))
-    Transform.set_pivot(self._transform, Vector2(22.5, 64))
+    SpriteRenderer.set_material(self._entity, material)
+    Transform.set_position(self._entity, Vector2(200, 0))
+    Transform.set_pivot(self._entity, Vector2(22.5, 64))
 end
 
 function Rocket:update(dt, view_size)
     local input = read_input()
-    local rotation = calculate_rotation(Transform.rotation(self._transform), input, dt)
-    Transform.set_rotation(self._transform, rotation)
+    local rotation = calculate_rotation(Transform.rotation(self._entity), input, dt)
+    Transform.set_rotation(self._entity, rotation)
     self._velocity = apply_gravity(self._velocity, dt)
     self._thruster:update(input, dt)
     self._velocity = apply_thrust(self._velocity, self._thruster:thrust(), rotation, dt)
     self._velocity = limit_velocity(self._velocity)
-    local new_pos = Transform.position(self._transform) + self._velocity * dt
-    local sprite_size = Tuple.second(SpriteRenderer.rect(self._sprite))
+    local new_pos = Transform.position(self._entity) + self._velocity * dt
+    local sprite_size = Tuple.second(SpriteRenderer.rect(self._entity))
 
     if new_pos.y > view_size.y - sprite_size.y then
         new_pos.y = view_size.y - sprite_size.y
         self._velocity = Vector2(0, 0)
     end
 
-    Transform.set_position(self._transform, new_pos)
+    Transform.set_position(self._entity, new_pos)
 end
 
 function Rocket:position()
-    return Transform.position(self._transform)
+    return Transform.position(self._entity)
 end
 
 apply_gravity = function(current_velocity, dt)
