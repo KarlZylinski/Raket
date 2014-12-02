@@ -14,7 +14,6 @@ function Game:init()
     Drawable.set_material(self._background, self._background_material)
     Drawable.set_depth(self._background, -1)
     
-
     self._rocket = Rocket()
     self._rocket:spawn(self._world)
     Engine.load_resource("sprite", "sprites/ground.sprite")

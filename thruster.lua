@@ -9,17 +9,18 @@ function Thruster:init()
 end
 
 function Thruster:spawn(world)
-    self._sprite = Rectangle.spawn(world, Vector2(0,0), Vector2(30,80), Color(1, 1, 1, 1), 20)
-    local sprite_size = Tuple.second(Sprite.rect(self._sprite))
-    Drawable.set_pivot(self._sprite, Vector2(sprite_size.x * 0.5, 0))
-    Drawable.set_material(self._sprite, self._material)
+    self._entity = Entity.create(world)
+    SpriteRenderer.create(self._entity, Vector2(0,0), Vector2(30,80))
+    local sprite_size = Tuple.second(SpriteRenderer.rect(self._entity))
+    Transform.set_pivot(self._entity, Vector2(sprite_size.x * 0.5, 0))
+    SpriteRenderer.set_material(self._entity, self._material)
 end
 
 function Thruster:set_parent(parent)
-    Drawable.set_parent(self._sprite, parent)
-    local sprite_size = Tuple.second(Sprite.rect(self._sprite))
-    local parent_size = Tuple.second(Sprite.rect(parent))
-    Drawable.set_position(self._sprite, Vector2(0, parent_size.y * 0.5 - sprite_size.y * 0.5 - 3))
+    Transform.set_parent(self._entity, parent)
+    local sprite_size = Tuple.second(SpriteRenderer.rect(self._entity))
+    local parent_size = Tuple.second(SpriteRenderer.rect(parent))
+    Transform.set_position(self._entity, Vector2(0, parent_size.y * 0.5 - sprite_size.y * 0.5 - 3))
 end
 
 function Thruster:update(input, dt)

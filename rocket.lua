@@ -12,16 +12,14 @@ function Rocket:init()
 end
 
 function Rocket:spawn(world)
-    self._thruster:spawn(world)
-    self._sprite = Sprite.spawn(world, "sprites/rocket.sprite", 50)
-    self._thruster:set_parent(self._sprite)
-
     self._entity = Entity.create(world)
     SpriteRenderer.create(self._entity, Vector2(0,0), Vector2(45, 128))
     local material = Engine.load_resource("material", "sprites/rocket.material")
     SpriteRenderer.set_material(self._entity, material)
     Transform.set_position(self._entity, Vector2(200, 0))
     Transform.set_pivot(self._entity, Vector2(22.5, 64))
+    self._thruster:spawn(world)
+    self._thruster:set_parent(self._entity)
 end
 
 function Rocket:update(dt, view_size)
