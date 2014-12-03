@@ -6,7 +6,6 @@ local apply_gravity, apply_thrust, calculate_rotation, calculate_thrust, limit_v
 Rocket = class(Rocket)
 
 function Rocket:init()
-    Engine.load_resource("sprite", "sprites/rocket.sprite")
     self._thruster = Thruster()
     self._velocity = Vector2(0, 0)
 end

@@ -1,5 +1,5 @@
 shader: "default.shader"
 uniforms: [
     "mat4 model_view_projection_matrix mvp"
-    "texture1 texture_sampler drawable_texture"
+    "texture1 texture_sampler"
 ]

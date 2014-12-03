@@ -17,7 +17,6 @@ function Game:init()
     
     self._rocket = Rocket()
     self._rocket:spawn(self._world)
-    Engine.load_resource("sprite", "sprites/ground.sprite")
     self._background_material = Engine.load_resource("material", "sprites/ground.material")
     self._ground = Entity.create(self._world)
     SpriteRenderer.create(self._ground, Vector2(0,0), Vector2(1280,400))
