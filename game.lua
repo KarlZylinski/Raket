@@ -19,10 +19,11 @@ function Game:init()
     self._rocket:spawn(self._world)
     self._background_material = Engine.load_resource("material", "sprites/ground.material")
     self._ground = Entity.create(self._world)
-    SpriteRenderer.create(self._ground, Vector2(0,0), Vector2(1280,400))
+    SpriteRenderer.create(self._ground, Vector2(0,0), Vector2(1869,2048))
     SpriteRenderer.set_material(self._ground, self._background_material)
     SpriteRenderer.set_depth(self._ground, -1)
-    Transform.set_position(self._ground, Vector2(-443,600))
+    Transform.set_pivot(self._ground, Vector2(1869/2, 2048/2))
+    Transform.set_position(self._ground, Vector2(90,500))
 end
 
 function Game:deinit()

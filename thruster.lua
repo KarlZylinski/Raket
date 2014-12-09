@@ -11,9 +11,9 @@ end
 
 function Thruster:spawn(world)
     self.entity = Entity.create(world)
-    SpriteRenderer.create(self.entity, Vector2(0,0), Vector2(30,80))
+    SpriteRenderer.create(self.entity, Vector2(0,0), Vector2(28,80))
     local sprite_size = Tuple.second(SpriteRenderer.rect(self.entity))
-    Transform.set_pivot(self.entity, Vector2(sprite_size.x * 0.5, 0))
+    Transform.set_pivot(self.entity, Vector2(sprite_size.x * 0.5 + 2, 0))
     SpriteRenderer.set_material(self.entity, self.material)
 end
 
