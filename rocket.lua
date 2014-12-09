@@ -1,7 +1,14 @@
 require "shared/tuple"
 require "thruster"
 
-local apply_gravity, apply_thrust, calculate_rotation, calculate_thrust, limit_velocity, limit_horizontal_velocity, limit_vertical_velocity, read_input
+local apply_gravity, calculate_rotation, calculate_thrust, limit_velocity, limit_horizontal_velocity, limit_vertical_velocity, read_input
+
+
+function apply_force(current_velocity, current_force, rotation, dt)
+    local vertical_velocity_change = -current_force * dt
+    return current_velocity + Vector2(-vertical_velocity_change * math.sin(rotation),
+        vertical_velocity_change * math.cos(rotation))
+end
 
 Rocket = class(Rocket)
 
@@ -27,7 +34,7 @@ function Rocket:update(dt, view_size)
     Transform.set_rotation(self._entity, rotation)
     self._velocity = apply_gravity(self._velocity, dt)
     self._thruster:update(input, dt)
-    self._velocity = apply_thrust(self._velocity, self._thruster:thrust(), rotation, dt)
+    self._velocity = apply_force(self._velocity, self._thruster.force, rotation, dt)
     self._velocity = limit_velocity(self._velocity)
     local new_pos = Transform.position(self._entity) + self._velocity * dt
     local sprite_size = Tuple.second(SpriteRenderer.rect(self._entity))
@@ -46,12 +53,6 @@ end
 
 apply_gravity = function(current_velocity, dt)
     return current_velocity + Vector2(0, 9.82 * 300 * dt);
-end
-
-apply_thrust = function(current_velocity, current_thrust, rotation, dt)
-    local vertical_velocity_change = current_thrust * dt
-    return current_velocity + Vector2(-vertical_velocity_change * math.sin(rotation),
-        vertical_velocity_change * math.cos(rotation))
 end
 
 calculate_rotation = function(current_rotation, input, dt)
@@ -86,11 +87,11 @@ read_input = function()
     local input = Vector2(0, 0)
 
     if Keyboard.held("Up") then
-        input.y = -1
+        input.y = 1
     end
 
     if Keyboard.held("Down") then
-        input.y = 1
+        input.y = -1
     end
 
     if Keyboard.held("Left") then

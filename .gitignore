@@ -1,3 +1,6 @@
 application.exe
 application.ilk
 application.pdb
+*.exe
+*.ilk
+*.pdb

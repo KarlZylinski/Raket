@@ -13,7 +13,7 @@ function Game:init()
     self._background = Entity.create(self._world)
     SpriteRenderer.create(self._background, Vector2(0,0), self._view_size)
     SpriteRenderer.set_material(self._background, self._background_material)
-    --Drawable.set_depth(self._background, -1)
+    SpriteRenderer.set_depth(self._background, -2)
     
     self._rocket = Rocket()
     self._rocket:spawn(self._world)
@@ -21,6 +21,7 @@ function Game:init()
     self._ground = Entity.create(self._world)
     SpriteRenderer.create(self._ground, Vector2(0,0), Vector2(1280,400))
     SpriteRenderer.set_material(self._ground, self._background_material)
+    SpriteRenderer.set_depth(self._ground, -1)
     Transform.set_position(self._ground, Vector2(-443,600))
 end
 
@@ -29,12 +30,7 @@ function Game:deinit()
     World.destroy(engine, self._world)
 end
 
-t = 0
-
 function Game:update(dt)
-    t = t + dt
-
-
     self._rocket:update(dt, self._view_size)
     local rocket_pos = self._rocket:position()
     Transform.set_position(self._background, rocket_pos - self._view_size * 0.5)
