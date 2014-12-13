@@ -7,7 +7,7 @@ epsilon = 0.0001
 
 function Console:init()
     local engine = Engine.engine()
-    self.world = World.create(engine)
+    self.world = World.create()
     self.font = Engine.load_resource("font", "shared/fonts/stolen.font")
     self.all_lines = {}
     self.visible_drawables = {}
